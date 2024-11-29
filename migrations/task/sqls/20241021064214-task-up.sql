@@ -59,20 +59,20 @@ INSERT INTO "CREDIT_PACKAGE" (name, credit_amount, price) VALUES
     -- 2. `王小明` 購買 `21 堂組合包方案`
     -- 3. `好野人` 購買 `14 堂組合包方案`
 INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, price_paid) VALUES
-((select id from "USER" where email = 'wXlTq@hexschooltest.io'),
-  (select id from "CREDIT_PACKAGE" where name = '14 堂組合包方案'),
-  (select credit_amount from "CREDIT_PACKAGE" where name = '14 堂組合包方案'),
-  (select price from "CREDIT_PACKAGE" where name = '14 堂組合包方案'));
+((SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io'),
+  (SELECT id FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案'),
+  (SELECT credit_amount FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案'),
+  (SELECT price FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案'));
 INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, price_paid) VALUES
-((select id from "USER" where email = 'wXlTq@hexschooltest.io'),
-  (select id from "CREDIT_PACKAGE" where name = '21 堂組合包方案'),
-  (select credit_amount from "CREDIT_PACKAGE" where name = '21 堂組合包方案'),
-  (select price from "CREDIT_PACKAGE" where name = '21 堂組合包方案'));
+((SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io'),
+  (SELECT id FROM "CREDIT_PACKAGE" WHERE name = '21 堂組合包方案'),
+  (SELECT credit_amount FROM "CREDIT_PACKAGE" WHERE name = '21 堂組合包方案'),
+  (SELECT price FROM "CREDIT_PACKAGE" WHERE name = '21 堂組合包方案'));
 INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, price_paid) VALUES
-((select id from "USER" where email = 'richman@hexschooltest.io'),
-  (select id from "CREDIT_PACKAGE" where name = '14 堂組合包方案'),
-  (select credit_amount from "CREDIT_PACKAGE" where name = '14 堂組合包方案'),
-  (select price from "CREDIT_PACKAGE" where name = '14 堂組合包方案'));
+((SELECT id FROM "USER" WHERE email = 'richman@hexschooltest.io'),
+  (SELECT id FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案'),
+  (SELECT credit_amount FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案'),
+  (SELECT price FROM "CREDIT_PACKAGE" WHERE name = '14 堂組合包方案'));
 
 -- ████████  █████   █    ████   
 --   █ █   ██    █  █         ██ 
@@ -86,11 +86,11 @@ INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, pr
     -- 2. 將用戶`肌肉棒子`新增為教練，並且年資設定為2年
     -- 3. 將用戶`Q太郎`新增為教練，並且年資設定為2年
 INSERT INTO "COACH" (user_id, experience_years) VALUES 
-((select id from "USER" where email = 'lee2000@hexschooltest.io'), 2)
+((SELECT id FROM "USER" WHERE email = 'lee2000@hexschooltest.io'), 2)
 INSERT INTO "COACH" (user_id, experience_years) VALUES 
-((select id from "USER" where email = 'muscle@hexschooltest.io'), 2)
+((SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io'), 2)
 INSERT INTO "COACH" (user_id, experience_years) VALUES 
-((select id from "USER" where email = 'starplatinum@hexschooltest.io'), 2)
+((SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io'), 2)
 
 -- 3-2. 新增：承1，為三名教練新增專長資料至 `COACH_LINK_SKILL` ，資料需求如下：
     -- 1. 所有教練都有 `重訓` 專長
@@ -131,19 +131,19 @@ INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES (
     -- 2. 教練`Q太郎` 的經驗年數為5年
 update "COACH" 
 set experience_years = 3 
-where user_id = (
-    select id 
-    from "USER" 
-    where email = 'muscle@hexschooltest.io');
+WHERE user_id = (
+    SELECT id 
+    FROM "USER" 
+    WHERE email = 'muscle@hexschooltest.io');
 update "COACH" 
 set experience_years = 3 
-where user_id = (
-    select id 
-    from "USER" 
-    where email = 'starplatinum@hexschooltest.io');
+WHERE user_id = (
+    SELECT id 
+    FROM "USER" 
+    WHERE email = 'starplatinum@hexschooltest.io');
 -- 3-4 刪除：新增一個專長 空中瑜伽 至 SKILL 資料表，之後刪除此專長。
 INSERT INTO "SKILL" (name) VALUES ('空中瑜伽');
-delete from "SKILL" where name = '空中瑜伽';
+delete FROM "SKILL" WHERE name = '空中瑜伽';
 
 
 --  ████████  █████   █    █   █ 
@@ -163,8 +163,8 @@ delete from "SKILL" where name = '空中瑜伽';
     -- 6. 最大授課人數`max_participants` 設定為10
     -- 7. 授課連結設定`meeting_url`為 https://test-meeting.test.io
 INSERT INTO "COURSE" (user_id, skill_id, name, start_at, end_at, max_participants, meeting_url) VALUES
-((select id from "USER" where email = 'lee2000@hexschooltest.io'),
-  (select id from "SKILL" where name = '重訓'),
+((SELECT id FROM "USER" WHERE email = 'lee2000@hexschooltest.io'),
+  (SELECT id FROM "SKILL" WHERE name = '重訓'),
   '重訓基礎課',
   '2024-11-25 14:00:00',
   '2024-11-25 16:00:00',
@@ -211,8 +211,8 @@ INSERT INTO "COURSE" (user_id, skill_id, name, start_at, end_at, max_participant
 
 -- 5-8. [挑戰題] 查詢：請在一次查詢中，計算用戶王小明的剩餘可用堂數，顯示須包含以下欄位： user_id , remaining_credit
     -- 提示：
-    -- select ("CREDIT_PURCHASE".total_credit - "COURSE_BOOKING".used_credit) as remaining_credit, ...
-    -- from ( 用戶王小明的購買堂數 ) as "CREDIT_PURCHASE"
+    -- SELECT ("CREDIT_PURCHASE".total_credit - "COURSE_BOOKING".used_credit) as remaining_credit, ...
+    -- FROM ( 用戶王小明的購買堂數 ) as "CREDIT_PURCHASE"
     -- inner join ( 用戶王小明的已使用堂數) as "COURSE_BOOKING"
     -- on "COURSE_BOOKING".user_id = "CREDIT_PURCHASE".user_id;
 
