@@ -96,14 +96,36 @@ INSERT INTO "COACH" (user_id, experience_years) VALUES
     -- 3. 教練`Q太郎` 需要有 `有氧運動` 與 `復健訓練` 專長
 -- 插入教練技能關聯
 -- 為成為教練的用戶建立 COACH 記錄
-INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id)
-SELECT c.id, s.id
-FROM "COACH" c
-JOIN "USER" u ON c.user_id = u.id
-CROSS JOIN "SKILL" s
-WHERE (u.email = 'lee2000@hexschooltest.io' AND s.name = '重訓')
-   OR (u.email = 'muscle@hexschooltest.io' AND s.name IN ('重訓', '瑜伽'))
-   OR (u.email = 'starplatinum@hexschooltest.io' AND s.name IN ('重訓', '有氧運動', '復健訓練'));
+INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES 
+(
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'lee2000@hexschooltest.io')),
+    (select id from "SKILL" where name = '重訓')
+);
+INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES 
+(
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io')),
+    (select id from "SKILL" where name = '重訓')
+);
+INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES 
+(
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io')),
+    (select id from "SKILL" where name = '重訓')
+);
+INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES 
+(
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io')),
+    (select id from "SKILL" where name = '瑜伽')
+);
+INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES 
+(
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io')),
+    (select id from "SKILL" where name = '有氧運動')
+);
+INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES 
+(
+    (SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io')),
+    (select id from "SKILL" where name = '復健訓練')
+);
 -- 3-3 修改：更新教練的經驗年數，資料需求如下：
     -- 1. 教練`肌肉棒子` 的經驗年數為3年
     -- 2. 教練`Q太郎` 的經驗年數為5年
